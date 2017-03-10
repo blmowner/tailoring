@@ -3,7 +3,7 @@
 include("inc/conn.php");
 require("fpdf/receipt.php");
 
-session_start();
+$user_id = $_GET['user_id'];
 
 
 function getTextBetweenTags($tag, $html, $strict=0)
@@ -33,10 +33,8 @@ function getTextBetweenTags($tag, $html, $strict=0)
 }
 
 
-
-
-$varHeader=array("Bil","Tarikh","ID Tempahan","Jenis Pakaian", "Kuantiti","Harga","Status Pembayaran","Status Tempahan","Status Tenunan");
-$varColWidth=array(7,22,22,30,20,20,30,40,40);	  				
+$varHeader=array("Bil","Tarikh","ID Tempahan","Jenis Pakaian", "Kuantiti","Harga (RM)","Status Pembayaran","Status Tempahan","Status Tenunan");
+$varColWidth=array(7,16,18,40,12,18,30,50,40);	  				
 /*$varHeader=array("No","Student Name", "Matric No","Thesis Date","Thesis/Project ID","Thesis Type","Thesis/Project Title", "Senate Decision (Please Tick)");
 $varColWidth=array(7,45,20,18,22,18,55,45);*/
 
@@ -49,23 +47,40 @@ $setOfIngres = array();
 $setOfIngres2 = array();
 $Ingres = array();
 
-$query_check_price_status = "SELECT o.o_date,o.o_id,o.o_quantity,o.o_price,
-							 o.o_payment_status,o.o_status,o.o_alter_status,SUM(o.o_price) AS total,
-							 g.g_type FROM orders o
-							 LEFT JOIN garment g 
-							 ON o.g_id = g.g_id
-							 WHERE o.o_price != 'processing'";
+if($user_id == 'admin')
+{
+	$query_check_payment_status = "SELECT o.o_date,o.o_id,o.o_quantity,o.o_price,
+								 o.o_payment_status,o.o_status,o.o_alter_status,
+								 g.g_type FROM orders o
+								 LEFT JOIN garment g 
+								 ON o.g_id = g.g_id
+								 WHERE o.o_payment_status = 'accepted'";
 
-$result = mysql_query($query_check_price_status);
-$no = 0;
+    $query_get_total_price    = "SELECT SUM(o_price) AS total FROM orders WHERE o_payment_status = 'accepted'";
+}
+else
+{
+	$query_check_payment_status = "SELECT o.o_date,o.o_id,o.o_quantity,o.o_price,
+								 o.o_payment_status,o.o_status,o.o_alter_status,
+								 g.g_type FROM orders o
+								 LEFT JOIN garment g 
+								 ON o.g_id = g.g_id
+								 WHERE o.o_payment_status = 'accepted'
+								 AND o.c_id = '$user_id'";
 
-$result2 = mysql_query($query_check_price_status);
+	$query_get_total_price    = "SELECT SUM(o_price) AS total FROM orders WHERE c_id = '$user_id' 
+	                             AND o_payment_status = 'accepted'";
+}
+
+
+$result = mysql_query($query_check_payment_status);
+
+$result2 = mysql_query($query_get_total_price);
+
 $row = mysql_fetch_array($result2);
 $total = $row['total'];
 
-
-
-
+$no = 0;
 while ($row2 = mysql_fetch_array($result))
 {
 	
@@ -120,7 +135,7 @@ $pdf=new PDF_MC_Table_sr1("L","mm","letter");
 	
 	// --- TABLE HEADER (START) ---
 	$pdf->SetFont('Arial','',7);
-	$varLabelLength=18;
+	$varLabelLength=148;
 	$varValueLength=60;
 	$varSpaceLength=25; //ngam2 size
 	//$this->AddPage();
@@ -133,7 +148,7 @@ $pdf=new PDF_MC_Table_sr1("L","mm","letter");
 	$pdf->Cell(20,0,'',0,0,'L');///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	foreach($varHeader as $key=>$value)
 	{
-		$pdf->SetFillColor(240,240,240);
+		$pdf->SetFillColor(120,240,240);
 		$pdf->Cell($varColWidth[$key],4,$value,1,0,'L',1);
 		
 	}
@@ -155,27 +170,36 @@ $pdf=new PDF_MC_Table_sr1("L","mm","letter");
 	{
 		$pdf->Row($value);
 	}
-
-
-    $pdf->Cell(121,0,'',0,0,'L');///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
+    $pdf->Ln(0);
+    $pdf->Cell(20,0,'',0,0,'L');///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     foreach($varHeader2 as $key => $value)
 	{
-		$pdf->SetFont('Arial','',7);
-		$pdf->SetFillColor(240,240,240);
-		$pdf->Cell(20,4,'Jumlah: RM'.$total,1,0,'L',1);
+		$pdf->SetFont('Arial','B',7);
+		$pdf->SetFillColor(200,240,240);
+		$pdf->Cell(41,4,'Jumlah Perlu Dibayar (RM) : '.$total,1,0,'L',1);
 	}
 
-
-
    
-/*		$pdf->Ln();
+		$pdf->Ln(10);
+		$pdf->SetFont('','B');
+		$pdf->Cell(20,0,'',0,0,'L');//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		$pdf->Cell(50,4,'Disediakan Untuk : '.$user_id,0,0,'L');
+		$pdf->SetFont('','');
+
+
+
+
+
+/*		$pdf->Ln(10);
 		$pdf->SetFont('','B');
 		$pdf->Cell(20,0,'',0,0,'L');//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		$pdf->Cell(50,4,'Prepared By: ',0,0,'L');
 		$pdf->Cell(50,4,'Verified By: ',0,0,'L');	
 		$pdf->Cell(50,4,'Endorsed By: ',0,0,'L');	
 		$pdf->SetFont('','');
+		
 		$pdf->Ln(10);
 		$pdf->Cell(20,0,'',0,0,'L');//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		$pdf->Cell(50,4,'.......................................................',0,0,'L');

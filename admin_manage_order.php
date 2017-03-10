@@ -12,8 +12,9 @@
 	include "inc/conn.php";
 	error_reporting(0);
 	session_start();
+
 	
-	if (empty($_SESSION['user_id']) AND empty($_SESSION['user_password']))
+	if (empty($_SESSION[user_id]) AND empty($_SESSION[user_password]))
 	{
 	  echo "<center>Login Required!<br>";
 	  echo "<a href=index.php><b>LOGIN</b></a></center>";
@@ -30,6 +31,7 @@
   
 	<!-- navigator -->
 	<?php include "layout/navigator.php"; ?>
+    <?php $user_id = $_SESSION['user_id'];?>
 
     <div class="panel panel-warning">
       <div class="panel-heading">
@@ -63,6 +65,8 @@
 
 	include "inc/conn.php";
 	
+	
+
 	$act=$_GET[act];
 	
 	if ($act=='del')
@@ -129,11 +133,10 @@
 
 
 </table>
-<a href="pdf_create_receipt.php">
+<a href=<?php echo "pdf_create_receipt.php?user_id=$user_id";?>>
 <button class='btn btn-warning'>
   Cetak Resit
 </button>
-</a>
 </div>
 </div>
 </div>

@@ -56,9 +56,10 @@ function Header()
 		$this->SetFont('Arial','B',30); // Arial bold 15
 		$this->Cell(0,10,"E-Tailoring",0,0,"C"); // Title
 		
-		$this->Ln(5); 
+		$this->Ln(15); 
 		$this->SetFont('Arial','B',8); // Arial bold 9
-		/*$this->Cell(0,10,"As of ".date("j-F-Y"),0,0,"C"); */
+		/*$this->Cell(0,10,"As of ".date("j-F-Y"),0,0,"C");*/
+        $this->Cell(0,10,date("j-F-Y"),0,0,"C");
 		$this->Ln(3);
 		$this->Ln();
 		//$this->Cell(0,10,"CATEGORY : TECHNICAL".$varDetail3Lab[$key3]["prf_category"],0,0,"C"); // Title

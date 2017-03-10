@@ -77,6 +77,8 @@
 		$update = mysql_query("UPDATE orders SET o_status = 'cancelled' WHERE o_id = '$o_id'");
 	}
 	
+	$user_id = $_SESSION['user_id'];
+
 	$query = "SELECT * FROM orders WHERE c_id = '$_SESSION[user_id]'";
 	$result = mysql_query($query) or die(mysql_error());
 	
@@ -130,11 +132,10 @@
 
 </table>
 
-<a href="pdf_create_receipt.php">
+<a href=<?php echo "pdf_create_receipt.php?user_id=$user_id";?>>
 <button class='btn btn-warning'>
   Cetak Resit
 </button>
-</a>
 </div>
 </div>
 </div>
