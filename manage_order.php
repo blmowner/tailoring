@@ -67,26 +67,29 @@
 	
 	if ($act=='cancel')
 	{
-		
-		$o_id =  $_GET['o_id'];
-		echo "<script>swal({   title: 'Adakah anda pasti?',   text: 'Tempahan anda akan dibatalkan!',   type: 'warning',   showCancelButton: true,   confirmButtonColor: '#DD6B55',   confirmButtonText: 'Yes',   closeOnConfirm: false }, function(){ swal('Pembatalan!', 'Tempahan berjaya dibatalkan...', 'success'); window.location.href='manage_order.php?act=cancel_order&o_id=$o_id'; });</script>";
+		                                                                                      																																																							
+		$o_id =  $_GET['o_id'];																																										
+		echo "<script>swal({   title: 'Adakah anda pasti?',   text: 'Tempahan anda akan dibatalkan!',   type: 'warning',   showCancelButton: true,   confirmButtonColor: '#DD6B55',   confirmButtonText: 'Yes',   closeOnConfirm: false }, function(){ swal('Pembatalan!', 'Tempahan berjaya dibatalkan...', 'success'); setTimeout(function () {
+       window.location.href = 'manage_order.php?act=cancel_order&o_id=$o_id';; 
+    }, 2000);; });</script>";
+
 	}
 	else if ($act=='cancel_order')
 	{
 		$o_id =  $_GET['o_id'];
-		$update = mysql_query("UPDATE orders SET o_status = 'cancelled' WHERE o_id = '$o_id'");
+		$update = mysql_query("UPDATE orders SET o_status = 'cancelled' WHERE o_id = '$o_id' ORDER BY o_id DESC");
 	}
 	
 	$user_id = $_SESSION['user_id'];
 
-	$query = "SELECT * FROM orders WHERE c_id = '$_SESSION[user_id]'";
+	$query = "SELECT * FROM orders WHERE c_id = '$_SESSION[user_id]' ORDER BY o_id DESC";
 	$result = mysql_query($query) or die(mysql_error());
 	
 	$no = 1;
 	
 	while ($row = mysql_fetch_array($result))
 	{
-		$queryGarment = mysql_query("SELECT * FROM garment WHERE g_id = $row[g_id]");
+		$queryGarment = mysql_query("SELECT * FROM garment WHERE g_id = $row[g_id] ORDER BY g_id DESC");
 		$rowGarment = mysql_fetch_array($queryGarment);
 		
 		echo "<tr>

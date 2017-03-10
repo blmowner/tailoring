@@ -49,9 +49,18 @@
 		$insert = mysql_query("INSERT INTO fabric (f_name) VALUES ('$f_name')");
 
 		if($insert == TRUE)
-			echo "<script>swal('Terima kasih!', 'jenis kain berjaya ditambah...', 'success'); window.location=('manage_fabric.php')</script>";
+		{
+
+			echo "<script>swal('Terima kasih!', 'jenis kain berjaya ditambah...', 'success'); 
+			setTimeout(function () {
+			       window.location.href = 'manage_fabric.php'; 
+			    }, 2000);</script>";
+		}
+
 		else
-			echo "<script>swal('Maaf!', 'error...', 'error'); window.location=('add_fabric.php')</script>";
+			echo "<script>swal('Maaf!', 'error...', 'error'); setTimeout(function () {
+			       window.location.href = 'add_fabric.php'; 
+			    }, 2000);/script>";
 	}
 
 	echo"<form id='fabricForm' class='form-horizontal' method='post'>

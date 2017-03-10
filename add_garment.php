@@ -13,6 +13,8 @@
 <?php
 	include "inc/conn.php";
 	error_reporting(0);
+
+	ob_start();
 	session_start();
 
 	if (empty($_SESSION[user_id]) AND empty($_SESSION[user_password]))
@@ -66,12 +68,12 @@
 		  || ($_FILES["fileName"]["type"] == "image/jpeg")
 		  || ($_FILES["fileName"]["type"] == "image/png" )) {
 		       //do the error checking if/else and upload if the check comes back OK
-			echo 'ok';
+			/*echo 'ok';*/
 		} else {
-		  echo "Files must be either JPEG, GIF, or PNG";
+		  /*echo "Files must be either JPEG, GIF, or PNG";*/
 		}
 
-		if ($_FILES["fileName"]["size"] < 100000) {
+/*		if ($_FILES["fileName"]["size"] < 100000) {
 		  // this file is small enough to process
 		} else {
 		  echo "Files must be less than 10,000 kb";
@@ -95,7 +97,7 @@
 		  case 4:
 		    print '<p> No file was uploaded</p>';
 		    break;
-		}
+		}*/
 
 
 
@@ -128,9 +130,13 @@
 
 
 		if($insert == true && $insert_image == true)
-			echo "<script>swal('Terima kasih!', 'ukuran baju berjaya disimpan...', 'success'); window.location=('manage_garment.php')</script>";
+			echo "<script>swal('Terima kasih!', 'ukuran baju berjaya disimpan...', 'success'); setTimeout(function () {
+			       window.location.href = 'manage_garment.php'; 
+			    }, 2000);</script>";
 		else
-			echo "<script>swal('Maaf!', 'error...', 'error'); window.location=('add_garment.php')</script>";
+			echo "<script>swal('Maaf!', 'error...', 'error'); setTimeout(function () {
+			       
+			    }, 2000);</script>";
 	}
 	
 	echo "<center><b style='color:red;'>** ukuran dalam centimeter(cm)</b></center><br />";
@@ -166,7 +172,14 @@
                   <div class='form-group'>
                  	 <label class='col-xs-3 control-label'>Jenis Baju</label>
                  	 <div class='col-xs-8'>
-                 		<select id='garment_select' name='g_type' class='form-control'>
+                 		<select id='garment_select' name='g_type' class='form-control' value='$g_type'";?>
+
+                 		
+                 		<?php if(isset($_POST['g_type'])) 
+                 		 'selected= selected>';
+                 		 ?>
+
+                 		 <?php echo"
                  			<option value=''>:: pilih jenis baju ::</option>
                  			<option value='Baju Melayu Cekak Musang'>Baju Melayu Cekak Musang</option>
                  			<option value='Baju Melayu Johor'>Baju Melayu Johor</option>
@@ -195,7 +208,13 @@
                   <div class='form-group'>
                   	<label class='col-xs-3 control-label'>Jenis Kain</label>
                   	<div class='col-xs-8'>
-                  		<select name='g_fabric' class='form-control'>
+                  		<select name='g_fabric' class='form-control' value='$g_fabric'";?>
+
+                         <?php if(isset($_POST['g_fabric'])) 
+                          'selected= selected>';
+                          ?>
+
+                  		<?php echo"
                   		<option value=''>:: pilih jenis kain ::</option>";
                   		
                   		$queryFabric = mysql_query("SELECT * FROM fabric");
@@ -216,7 +235,13 @@
                   <div class='form-group'>
                   	<label class='col-xs-3 control-label'>Warna Kain</label>
                   	<div class='col-xs-8'>
-                  		<select name='g_color' class='form-control'>
+                  		<select name='g_color' class='form-control' value='$g_color'";?>
+
+                        <?php if(isset($_POST['g_color'])) 
+                         'selected= selected>';
+                         ?>
+                         
+                  		<?php echo"
                   		<option value=''>:: pilih warna kain ::</option>";
                   		
                   		$queryColor = mysql_query("SELECT * FROM color");
@@ -237,7 +262,7 @@
                   <div class='form-group'>
                   	<label class='col-xs-3 control-label'>Ukuran keliling leher</label>
                   	<div class='col-xs-8'>
-                  		<input type='number' step='0.01' class='form-control' name='g_neck' placeholder='Ukuran Keliling Leher' />
+                  		<input type='number' step='0.01' class='form-control' name='g_neck' value='$g_neck' placeholder='Ukuran Keliling Leher' />
                   	</div>
                   </div>
                </div>
@@ -252,7 +277,7 @@
                   <div class='form-group'>
                   	<label class='col-xs-3 control-label'>Ukuran Lebar Bahu</label>
                   	<div class='col-xs-8'>
-                  		<input type='number' step='0.01' class='form-control' name='g_shoulder' placeholder='Ukuran Lebar Bahu' />
+                  		<input type='number' step='0.01' class='form-control' name='g_shoulder' value='$g_shoulder' placeholder='Ukuran Lebar Bahu' />
                   	</div>
                   </div>
                </div>
@@ -267,7 +292,7 @@
                   <div class='form-group'>
                   	<label class='col-xs-3 control-label'>Ukuran Keliling Dada</label>
                   	<div class='col-xs-8'>
-                  		<input type='number' step='0.01' class='form-control' name='g_bust' placeholder='Ukuran Keliling Dada' />
+                  		<input type='number' step='0.01' class='form-control' name='g_bust' value='$g_bust' placeholder='Ukuran Keliling Dada' />
                   	</div>
                   </div>
                </div>
@@ -282,7 +307,7 @@
                   <div class='form-group'>
                      <label class='col-xs-3 control-label'>Ukuran Keliling Pinggang</label>
                      <div class='col-xs-8'>
-                     	<input type='number' step='0.01' class='form-control' name='g_waist' placeholder='Ukuran Keliling Pinggang' />
+                     	<input type='number' step='0.01' class='form-control' name='g_waist' value='$g_waist' placeholder='Ukuran Keliling Pinggang' />
                      </div>
                   </div>
                </div>
@@ -298,7 +323,7 @@
                   <div class='form-group'>
                 	 <label class='col-xs-3 control-label'>Ukuran Keliling Pinggul</label>
                 	 <div class='col-xs-8'>
-                		<input type='number' step='0.01' class='form-control' name='g_hips' placeholder='Ukuran Keliling Pinggul' />
+                		<input type='number' step='0.01' class='form-control' name='g_hips' value='$g_hips' placeholder='Ukuran Keliling Pinggul' />
                 	 </div>
                   </div>
                </div>
@@ -313,7 +338,7 @@
                  <div class='form-group'>
                 	<label class='col-xs-3 control-label'>Ukuran Labuh Baju</label>
                 	<div class='col-xs-8'>
-                		<input type='number' step='0.01' class='form-control' name='g_length' placeholder='Ukuran Labuh Baju' />
+                		<input type='number' step='0.01' class='form-control' name='g_length' value='$g_length' placeholder='Ukuran Labuh Baju' />
                 	</div>
                  </div>
                </div>
@@ -328,7 +353,7 @@
                   <div class='form-group'>
                   	<label class='col-xs-3 control-label'>Ukuran Bukaan Tangan</label>
                   	<div class='col-xs-8'>
-                  		<input type='number' step='0.01' class='form-control' name='g_arm_hole' placeholder='Ukuran Bukaan Tangan' />
+                  		<input type='number' step='0.01' class='form-control' name='g_arm_hole' value='$g_arm_hole' placeholder='Ukuran Bukaan Tangan' />
                   	</div>
                   </div>
                </div>

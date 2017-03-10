@@ -55,8 +55,6 @@ if($user_id == 'admin')
 								 LEFT JOIN garment g 
 								 ON o.g_id = g.g_id
 								 WHERE o.o_payment_status = 'accepted'";
-
-    $query_get_total_price    = "SELECT SUM(o_price) AS total FROM orders WHERE o_payment_status = 'accepted'";
 }
 else
 {
@@ -68,30 +66,34 @@ else
 								 WHERE o.o_payment_status = 'accepted'
 								 AND o.c_id = '$user_id'";
 
-	$query_get_total_price    = "SELECT SUM(o_price) AS total FROM orders WHERE c_id = '$user_id' 
-	                             AND o_payment_status = 'accepted'";
+
 }
 
 
 $result = mysql_query($query_check_payment_status);
 
-$result2 = mysql_query($query_get_total_price);
-
-$row = mysql_fetch_array($result2);
-$total = $row['total'];
-
 $no = 0;
+
+$total_array    = array();
+$price_array    = array();
+$quantity_array = array();
+
 while ($row2 = mysql_fetch_array($result))
 {
 	
-	$date            = $row2['o_date'];
-	$id_tempahan     = $row2['o_id'];
-	$garment_type    = $row2['g_type'];
-	$quantity        = $row2['o_quantity'];
-	$price           = $row2['o_price'];
-	$payment_status  = $row2['o_payment_status'];
-	$status_tempahan = $row2['o_status'];
-	$alter_status    = $row2['o_alter_status'];
+	$date                = $row2['o_date'];
+	$id_tempahan         = $row2['o_id'];
+	$garment_type        = $row2['g_type'];
+	$quantity            = $row2['o_quantity'];
+	$price               = $row2['o_price'];
+	$payment_status      = $row2['o_payment_status'];     
+	$status_tempahan     = $row2['o_status'];
+	$alter_status        = $row2['o_alter_status'];
+    
+    $price_array[$no]    = $price;
+    $quantity_array[$no] = $quantity;
+    $total_array[$no]    = $price_array[$no] * $quantity_array[$no];
+
 	$no++;
 	array_push($setOfIngres, array($no,$date,$id_tempahan,$garment_type,$quantity,$price,$payment_status,$status_tempahan,$alter_status));
 }
@@ -178,7 +180,7 @@ $pdf=new PDF_MC_Table_sr1("L","mm","letter");
 	{
 		$pdf->SetFont('Arial','B',7);
 		$pdf->SetFillColor(200,240,240);
-		$pdf->Cell(41,4,'Jumlah Perlu Dibayar (RM) : '.$total,1,0,'L',1);
+		$pdf->Cell(41,4,'Jumlah Perlu Dibayar (RM) : '.array_sum($total_array),1,0,'L',1);
 	}
 
    
