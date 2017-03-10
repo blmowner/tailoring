@@ -68,12 +68,12 @@
 		  || ($_FILES["fileName"]["type"] == "image/jpeg")
 		  || ($_FILES["fileName"]["type"] == "image/png" )) {
 		       //do the error checking if/else and upload if the check comes back OK
-			/*echo 'ok';*/
+			echo 'ok';
 		} else {
-		  /*echo "Files must be either JPEG, GIF, or PNG";*/
+		  echo "Files must be either JPEG, GIF, or PNG";
 		}
 
-/*		if ($_FILES["fileName"]["size"] < 100000) {
+		if ($_FILES["fileName"]["size"] < 100000) {
 		  // this file is small enough to process
 		} else {
 		  echo "Files must be less than 10,000 kb";
@@ -97,7 +97,7 @@
 		  case 4:
 		    print '<p> No file was uploaded</p>';
 		    break;
-		}*/
+		}
 
 
 
@@ -172,14 +172,7 @@
                   <div class='form-group'>
                  	 <label class='col-xs-3 control-label'>Jenis Baju</label>
                  	 <div class='col-xs-8'>
-                 		<select id='garment_select' name='g_type' class='form-control' value='$g_type'";?>
-
-                 		
-                 		<?php if(isset($_POST['g_type'])) 
-                 		 'selected= selected>';
-                 		 ?>
-
-                 		 <?php echo"
+                 		<select id='garment_select' name='g_type' class='form-control' value='$g_type'>
                  			<option value=''>:: pilih jenis baju ::</option>
                  			<option value='Baju Melayu Cekak Musang'>Baju Melayu Cekak Musang</option>
                  			<option value='Baju Melayu Johor'>Baju Melayu Johor</option>
@@ -208,13 +201,7 @@
                   <div class='form-group'>
                   	<label class='col-xs-3 control-label'>Jenis Kain</label>
                   	<div class='col-xs-8'>
-                  		<select name='g_fabric' class='form-control' value='$g_fabric'";?>
-
-                         <?php if(isset($_POST['g_fabric'])) 
-                          'selected= selected>';
-                          ?>
-
-                  		<?php echo"
+                  		<select name='g_fabric' class='form-control' value='$g_fabric'>
                   		<option value=''>:: pilih jenis kain ::</option>";
                   		
                   		$queryFabric = mysql_query("SELECT * FROM fabric");
@@ -235,13 +222,7 @@
                   <div class='form-group'>
                   	<label class='col-xs-3 control-label'>Warna Kain</label>
                   	<div class='col-xs-8'>
-                  		<select name='g_color' class='form-control' value='$g_color'";?>
-
-                        <?php if(isset($_POST['g_color'])) 
-                         'selected= selected>';
-                         ?>
-                         
-                  		<?php echo"
+                  		<select name='g_color' class='form-control' value='$g_color'>
                   		<option value=''>:: pilih warna kain ::</option>";
                   		
                   		$queryColor = mysql_query("SELECT * FROM color");

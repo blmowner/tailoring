@@ -47,7 +47,18 @@
 	$queryGarment = mysql_query("SELECT * FROM garment WHERE g_id = '$g_id'");
 	$rowGarment = mysql_fetch_array($queryGarment);
 
+	$queryGarment_image = mysql_query("SELECT image_path FROM ref_image WHERE g_id = '$g_id' AND c_id = '$_SESSION[user_id]'");
+	$rowGarment_image = mysql_fetch_array($queryGarment_image);
+
 	echo"<form id='garmentForm' class='form-horizontal' method='post'>
+
+	    <div class='form-group'>
+	       <label class='col-xs-3 control-label'></label>
+	       <div class='col-xs-5'>
+	          <img class='img-responsive' id='image_preview' alt='Gambar' src='$rowGarment_image[image_path]' />
+	       </div>
+	    </div>
+
 		<div class='form-group'>
 			<label class='col-xs-3 control-label'>ID Pelanggan</label>
 			<div class='col-xs-5'>
