@@ -68,12 +68,12 @@
 		  || ($_FILES["fileName"]["type"] == "image/jpeg")
 		  || ($_FILES["fileName"]["type"] == "image/png" )) {
 		       //do the error checking if/else and upload if the check comes back OK
-			echo 'ok';
+			/*echo 'ok';*/
 		} else {
-		  echo "Files must be either JPEG, GIF, or PNG";
+		  /*echo "Files must be either JPEG, GIF, or PNG";*/
 		}
 
-		if ($_FILES["fileName"]["size"] < 100000) {
+/*		if ($_FILES["fileName"]["size"] < 100000) {
 		  // this file is small enough to process
 		} else {
 		  echo "Files must be less than 10,000 kb";
@@ -98,7 +98,7 @@
 		    print '<p> No file was uploaded</p>';
 		    break;
 		}
-
+*/
 
 
 		
@@ -113,8 +113,8 @@
 
         if ($_FILES["fileName"]["error"] > 0) 
         {
-          echo "Oh no! An error has occurred.";
-          echo "Error Code: " . $_FILES["fileName"]["error"];
+/*          echo "Oh no! An error has occurred.";
+          echo "Error Code: " . $_FILES["fileName"]["error"];*/
         } 
         else 
         {

@@ -50,9 +50,13 @@
 		$update = mysql_query("UPDATE orders SET o_tracking = '$o_tracking', o_status = 'pakaian dihantar [ $o_tracking ]' WHERE o_id = '$o_id'");
 
 		if($update == TRUE)
-			echo "<script>swal('Terima kasih!', 'no. tracking berjaya dimasukkan...', 'success'); window.location=('admin_manage_order.php')</script>";
+			echo "<script>swal('Terima kasih!', 'no. tracking berjaya dimasukkan...', 'success'); 		setTimeout(function () {
+					       window.location.href = 'admin_manage_order.php'; 
+					    }, 2000);</script>";
 		else
-			echo "<script>swal('Maaf!', 'error...', 'error'); window.location=('update_tracking.php')</script>";
+			echo "<script>swal('Maaf!', 'error...', 'error'); 		setTimeout(function () {
+					       window.location.href = 'update_tracking.php'; 
+					    }, 2000);</script>";
 	}
 	
 	$o_id = $_GET[o_id];
