@@ -13,7 +13,7 @@
 	error_reporting(0);
 	session_start();
 
-	if (empty($_SESSION[user_id]) AND empty($_SESSION[user_password]))
+	if (empty($_SESSION['user_id']) AND empty($_SESSION['user_password']))
 	{
 	  echo "<center>Login Required!<br>";
 	  echo "<a href=index.php><b>LOGIN</b></a></center>";
@@ -42,7 +42,7 @@
 
 	include "inc/conn.php";
 	
-	$g_id = $_GET[g_id];
+	$g_id = $_GET['g_id'];
 	
 	$queryGarment = mysql_query("SELECT * FROM garment WHERE g_id = '$g_id'");
 	$rowGarment = mysql_fetch_array($queryGarment);
