@@ -53,12 +53,17 @@ function Header()
 		$this->Ln(); 
 		$this->Cell(260,3,"Resit Rasmi E-Tailoring",0,0,'R'); // Reference No
 		$this->Ln(5); 
+
 		$this->SetFont('Arial','B',30); // Arial bold 15
-		$this->Cell(0,10,"E-Tailoring",0,0,"C"); // Title
+        $this->SetFillColor(36, 96, 84); 
+        $this->SetTextColor(225); 
+        $this->Cell(19); 
+		$this->Cell(234, 30, "E-Tailoring", 0, 1, 'C', true); // Title
 		
-		$this->Ln(15); 
+		$this->Ln(5); 
 		$this->SetFont('Arial','B',8); // Arial bold 9
 		/*$this->Cell(0,10,"As of ".date("j-F-Y"),0,0,"C");*/
+        $this->SetTextColor(0);
         $this->Cell(0,10,date("j-F-Y"),0,0,"C");
 		$this->Ln(3);
 		$this->Ln();
